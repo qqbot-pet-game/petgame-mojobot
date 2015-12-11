@@ -26,7 +26,8 @@ my $client=Mojo::Webqq->new(
     qq          =>  $qq,       #必选，登录的qq帐号，用于帐号密码登录或保存登录cookie使用
     pwd         =>  $pwd_md5,  #可选，如果选择帐号密码登录方式，必须指定帐号密码的md5值
     login_type  =>  "qrlogin", #"qrlogin"表示二维码登录，"login"表示帐号密码登录
-    qrcode_path =>  $qrcode_path
+    qrcode_path =>  $qrcode_path,
+    keep_cookie => 1
 );
 #注意: 腾讯可能已经关闭了帐号密码的登录方式，这种情况下只能使用二维码扫描登录
 
@@ -52,7 +53,7 @@ $client->on(ready=>sub{
 
 });
 
-if (defined $debug) {
+if ($debug) {
     $client->on(input_qrcode=>sub{
         my $client = shift;
         system("open $qrcode_path");
