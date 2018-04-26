@@ -15,6 +15,8 @@ sub call{
 
     $client->info("loading plugin: MyOpenqq");
 
+    my @msg_list = ();
+
     if(defined $post_api){
         $client->on(ready=>sub{
             my $client = shift;
@@ -38,6 +40,16 @@ sub call{
             });
         });
     }
+
+    # $client->on(ready=>sub{
+    #     my $client = shift;
+    #     $client->http_post($post_api, "login ok");
+    # });
+    $client->on(receive_message=>sub{
+        my($client,$msg) = @_;
+        return if $msg->type !~ /^message|group_message|discuss_message|sess_message$/;
+        @msg_list = (@msg_list, $msg);
+    });
 
     package MyOpenqq::App;
     use Encode;
@@ -71,7 +83,8 @@ sub call{
                 $client->each_group(sub {
                     my ($client, $group) = @_;
                     $friend = $group->search_group_member(id=>$uid);
-                    last if (defined $friend);
+                    # last if (defined $friend);
+                    return;
                 });
             }
             if (defined $friend) {

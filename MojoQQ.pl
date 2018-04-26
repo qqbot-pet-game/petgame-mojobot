@@ -62,7 +62,7 @@ if ($debug) {
 
 $client->load("+MyOpenqq",data=>{                                                 
     listen => [ {host=>"127.0.0.1",port=>$port}, ] , #监听的地址和端口，支持多个
-    post_api=> "http://127.0.0.1:$report_port/post_api",
+    # post_api=> "http://127.0.0.1:$report_port/post_api",
 });
 
 #客户端开始运行
